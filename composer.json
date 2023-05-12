@@ -1,0 +1,23 @@
+{
+  "name": "quantum3k/erply-sdk",
+  "type": "library",
+  "description": "Erply SDK Library",
+  "keywords": ["erply", "sdk", "api", "web service"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Eduard Faizullin",
+      "email": "quantum3k@gmail.com",
+      "homepage": "https://github.com/quantum3k"
+    }
+  ],
+  "require": {
+    "php": ">=7.0.0",
+    "guzzlehttp/guzzle": "^6.5.8"
+  },
+  "autoload": {
+    "psr-4": {
+      "quantum3k\\ErplySDK\\": "src/"
+    }
+  }
+}
