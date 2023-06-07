@@ -7,7 +7,7 @@ use quantum3k\ErplySDK\Bulks\BaseEntityBulk;
 use quantum3k\ErplySDK\Collections\BaseEntityCollection;
 use GuzzleHttp\Client;
 
-class ErplyAPI
+class ErplyAPI extends BaseAPI
 {
     protected $code;
     protected $username;
@@ -1026,8 +1026,7 @@ class ErplyAPI
         }
         *** */
 
-        // ********** DEBUG REQUEST TO ERPLY **********
-        \kint::dump('RAW REQUEST TO ERPLY', $requestParams);
+        $this->log(['raw_request' => $requestParams], self::LOG_DEBUG);
 
         $client = new Client();
         try {
@@ -1041,8 +1040,7 @@ class ErplyAPI
                 ],
             ]);
 
-            // ********** DEBUG RESPONSE FROM ERPLY **********
-            \kint::dump('RAW RESPONSE FROM ERPLY', $response->getBody()->getContents());
+            $this->log(['raw_response' => $response->getBody()->getContents()], self::LOG_DEBUG);
 
             $response = json_decode($response->getBody(), true);
 
@@ -1064,10 +1062,11 @@ class ErplyAPI
             return $response;
 
         } catch (ApiException $e) {
+            $this->log('Throw API error', self::LOG_DEBUG);
             throw $e;
 
         } catch (\Exception $e) {
-            print_r($e->getMessage());
+            $this->log($e->getMessage(), self::LOG_ERROR);
 
             $status = [
                 'responseStatus' => 'error',
@@ -1077,7 +1076,8 @@ class ErplyAPI
 
             return [
                 'status' => $status,
-                'records' => []
+                'records' => [],
+                'requests' => []
             ];
         }
     }
@@ -1138,20 +1138,6 @@ class ErplyAPI
     | Static methods of Class
     |--------------------------------------------------------------------------
     */
-
-    protected static function isJson($string): bool
-    {
-        if (!is_string($string))
-            return false;
-
-        try {
-            json_decode($string);
-        } catch (\Exception $e) {
-            return false;
-        }
-
-        return json_last_error() === JSON_ERROR_NONE;
-    }
 
     protected static function isArrayOfEntities(array $records, $entity): bool
     {

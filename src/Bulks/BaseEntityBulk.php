@@ -16,7 +16,6 @@ abstract class BaseEntityBulk
 
     public function __construct(array $response = null)
     {
-        //\kint::dump($response[0]['requests']);
         if ($response != null) {
 
             $this->status = new StatusBulk($response[0]['status']);
