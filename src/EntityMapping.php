@@ -11,6 +11,7 @@ class EntityMapping
      */
     protected static $collections = [
         'getAddresses'                      => Collections\Addresses::class,
+        'getAddressTypes'                   => Collections\AddressTypes::class,
         'getBrands'                         => Collections\Brands::class,
         'getCampaigns'                      => Collections\Campaigns::class,
         'getCashIns'                        => Collections\CashIns::class,

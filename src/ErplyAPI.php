@@ -806,6 +806,12 @@ class ErplyAPI extends BaseAPI
         return $this->make(Collections\Addresses::class, $parameters);
     }
 
+    public function getAddressTypes(array $parameters = []): Collections\AddressTypes
+    {
+        $parameters[static::STD_REQ] = 'getAddressTypes';
+        return $this->make(Collections\AddressTypes::class, $parameters);
+    }
+
     public function getCurrencies(array $parameters = []): Collections\Currencies
     {
         $parameters[static::STD_REQ] = 'getCurrencies';

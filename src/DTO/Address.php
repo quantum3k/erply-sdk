@@ -1,9 +1,4 @@
 <?php
-/*
-  1. requestName/request переноситься в API
-  2. параметр bulk убирается
-  3. заполнение и формирование запроса через цикл свойств
- */
 
 namespace quantum3k\ErplySDK\DTO;
 
