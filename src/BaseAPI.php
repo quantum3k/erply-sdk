@@ -22,7 +22,7 @@ abstract class BaseAPI
         }
     }
 
-    public function getLogs($type = null)
+    public function getLog($type = null)
     {
         if ($type === null) {
             return $this->logs;
@@ -33,7 +33,7 @@ abstract class BaseAPI
         }
     }
 
-    public function hasLogType($type): bool
+    public function hasLog($type): bool
     {
         foreach ($this->logs as $entry)
             if ($entry['type'] === $type) return true;
