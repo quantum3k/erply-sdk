@@ -71,7 +71,10 @@ class ErplyAPI extends BaseAPI
         return null;
     }
 
-    public function getSession(): DTO\VerifyUser
+    /**
+     * @return DTO\VerifyUser|null
+     */
+    public function getSession()
     {
         return $this->session;
     }
@@ -680,10 +683,16 @@ class ErplyAPI extends BaseAPI
         return $this->make(Collections\Warehouses::class, $parameters);
     }
 
-    public function getSessionKeyUser($record): Collections\SessionKeyUsers
+    public function getSessionKeyUser(array $parameters = []): Collections\SessionKeyUsers
     {
-        $parameters = array_merge($record->getQuery(), [static::STD_REQ => 'getSessionKeyUser']);
+        $parameters[static::STD_REQ] = 'getSessionKeyUser';
         return $this->make(Collections\SessionKeyUsers::class, $parameters);
+    }
+
+    public function getSessionKeyInfo(): DTO\SessionKeyInfo
+    {
+        $parameters[static::STD_REQ] = 'getSessionKeyInfo';
+        return $this->make(DTO\SessionKeyInfo::class, $parameters);
     }
 
     public function getProducts(array $parameters = []): Collections\Products

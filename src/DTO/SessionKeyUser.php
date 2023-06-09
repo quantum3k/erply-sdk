@@ -13,6 +13,7 @@ class SessionKeyUser extends BaseEntity
     public $ipAddress;
     public $sessionKey;
     public $sessionLength;
+    public $isPasswordExpired;
     public $loginUrl;
     public $berlinPOSVersion;
     public $berlinPOSAssetsURL;
