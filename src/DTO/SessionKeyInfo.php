@@ -15,4 +15,9 @@ class SessionKeyInfo extends BaseEntity
      * To extend the session, perform a new verifyUser call.
      */
     public $expireUnixTime;
+
+    public function isAlive(): bool
+    {
+        return time() <= $this->expireUnixTime;
+    }
 }

@@ -44,5 +44,6 @@ abstract class BaseAPI
     public function setLogSensitivity(array $types = [])
     {
         $this->sensitivity = $types;
+        return $this;
     }
 }

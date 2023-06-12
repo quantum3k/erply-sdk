@@ -12,14 +12,21 @@ class ErplyAPI extends BaseAPI
     protected $code;
     protected $username;
     protected $password;
+    protected $recordsOnPage = 20;
+    protected $sessionLength = 86400;
     protected $throw = true;
 
-    /** @var DTO\VerifyUser */
+    /**
+     * @var DTO\VerifyUser
+     */
     protected $session;
 
-    protected $recordsOnPage = 20;
+    /**
+     * @var DTO\SessionKeyInfo
+     */
+    protected $keepalive;
 
-    const USER_AGENT = 'Frogest/1.0.0';
+    const USER_AGENT = 'ErplyClient/1.0.1';
 
     const STD_REQ = 'request';
     const BULK_REQ = 'requestName';
@@ -63,6 +70,17 @@ class ErplyAPI extends BaseAPI
         return $this;
     }
 
+    public function getSessionLength()
+    {
+        return $this->sessionLength;
+    }
+
+    public function setSessionLength($sessionLength): self
+    {
+        $this->sessionLength = $sessionLength;
+        return $this;
+    }
+
     public function getSessionKey()
     {
         if ($this->session instanceof DTO\VerifyUser)
@@ -102,6 +120,11 @@ class ErplyAPI extends BaseAPI
     {
         $this->throw = $throw;
         return $this;
+    }
+
+    public function __construct()
+    {
+        $this->setLogSensitivity([self::LOG_NOTICE, self::LOG_ERROR]);
     }
 
     /*
@@ -950,29 +973,30 @@ class ErplyAPI extends BaseAPI
      * @param $password
      * @return DTO\VerifyUser
      */
-    public function verifySession($code = null, $username = null, $password = null): DTO\VerifyUser
+    public function verifyUser($code = null, $username = null, $password = null): DTO\VerifyUser
     {
         $parameters = [
             'request'       => 'verifyUser',
             'username'      => $username ?? $this->getUsername(),
             'password'      => $password ?? $this->getPassword(),
-            'sessionLength' => 86400,
+            'sessionLength' => $this->getSessionLength(),
         ];
 
         if ($code !== null) $this->setCode($code);
         if ($username !== null) $this->setUsername($username);
-        // if ($password !== null) $this->setPassword($password); // by security purpose won't assign password to property
+        if ($password !== null) $this->setPassword($password);
+
+        unset($this->session);
+        unset($this->keepalive);
 
         $this->session = $this->make(DTO\VerifyUser::class, $parameters);
+        $this->keepalive = $this->getSessionKeyInfo();
 
         return $this->session;
     }
 
     public function stdRequest(array $parameters = []): array
     {
-        $parameters['version'] = '1.0';
-        $parameters['clientCode'] = $this->getCode();
-        $parameters['sessionKey'] = $this->getSessionKey();
         $parameters['recordsOnPage'] = $this->getRecordsOnPage();
         return $this->sendPostDataToErply($parameters);
     }
@@ -1009,22 +1033,35 @@ class ErplyAPI extends BaseAPI
         }
 
         $bulkRequestParams = [];
-        $bulkRequestParams['version'] = '1.0';
-        $bulkRequestParams['clientCode'] = $this->getCode();
-        $bulkRequestParams['sessionKey'] = $this->getSessionKey();
         $bulkRequestParams['requests'] = json_encode($parameters);
         return $this->sendPostDataToErply($bulkRequestParams);
     }
 
     /**
      * @param $requestParams
-     * @return array{status:array{request:string, requestUnixTime:int, responseStatus:string, errorCode:int, errorField:string, generationTime:double, recordsTotal:int, recordsInResponse:int}, records:array, requests:array{status:array, records:array}} Associative array of response from remote server
+     * @return array{
+     *     status:array{
+     *          request:string,
+     *          requestUnixTime:int,
+     *          responseStatus:string,
+     *          errorCode:int,
+     *          errorField:string,
+     *          generationTime:double,
+     *          recordsTotal:int,
+     *          recordsInResponse:int},
+     *     records:array,
+     *     requests:array{
+     *          status:array,
+     *          records:array}
+     *     } Associative array of response from remote server
      * @throws ApiException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @see https://docs.guzzlephp.org/en/6.5/request-options.html
      */
     protected function sendPostDataToErply($requestParams): array
     {
+        $this->keepalive();
+
         $uri = 'https://' . $this->getCode() . '.erply.com/api/';
 
         $curlOptions = [
@@ -1032,14 +1069,13 @@ class ErplyAPI extends BaseAPI
             CURLOPT_SSL_VERIFYHOST => 2,
             CURLOPT_POST           => true,
             CURLOPT_FOLLOWLOCATION => false,
+            // CURLOPT_SSL_VERIFYPEER => true,
+            // CURLOPT_CAINFO         => '/etc/ssl/cert.pem',
         ];
 
-        /* ***
-        if (ERPLY_CURLOPT_SSL_VERIFYPEER === true) {
-            $curlOptions[CURLOPT_CAINFO] = static::env('ERPLY_CURLOPT_CAINFO', '/etc/ssl/cert.pem');
-            $curlOptions[CURLOPT_SSL_VERIFYPEER] = true;
-        }
-        *** */
+        $requestParams['version'] = '1.0';
+        $requestParams['clientCode'] = $this->getCode();
+        $requestParams['sessionKey'] = $this->getSessionKey();
 
         $this->log(['raw_request' => $requestParams], self::LOG_DEBUG);
 
@@ -1070,6 +1106,7 @@ class ErplyAPI extends BaseAPI
                 }
 
                 if ($response['status']['errorCode'] > 0) {
+                    $this->log("Received status with error code {$response['status']['errorCode']}", self::LOG_NOTICE);
                     $this->raiseError($response['status']);
                 }
             }
@@ -1077,7 +1114,7 @@ class ErplyAPI extends BaseAPI
             return $response;
 
         } catch (ApiException $e) {
-            $this->log('Throw API error', self::LOG_DEBUG);
+            $this->log('Throw ApiException error.', self::LOG_NOTICE);
             throw $e;
 
         } catch (\Exception $e) {
@@ -1117,6 +1154,16 @@ class ErplyAPI extends BaseAPI
             $instance->setConnection($this);
 
         return $instance;
+    }
+
+    protected function keepalive()
+    {
+        if ($this->keepalive instanceof DTO\SessionKeyInfo) {
+            if ($this->keepalive->isAlive() === false) {
+                $this->log('Session expired. Performing re-connect...', self::LOG_NOTICE);
+                $this->verifyUser();
+            }
+        }
     }
 
     /**
@@ -1162,11 +1209,10 @@ class ErplyAPI extends BaseAPI
         return true;
     }
 
-
     public static function getInstanceWithCredentials($code, $username, $password): ErplyAPI
     {
         $connection = new ErplyAPI();
-        $connection->verifySession($code, $username, $password);
+        $connection->verifyUser($code, $username, $password);
         return $connection;
     }
 
