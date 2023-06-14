@@ -97,6 +97,14 @@ class ErplyAPI extends BaseAPI
         return $this->session;
     }
 
+    /**
+     * @return DTO\SessionKeyInfo|null
+     */
+    public function getKeepalive()
+    {
+        return $this->keepalive;
+    }
+
     public function getRecordsOnPage(): int
     {
         return $this->recordsOnPage;
@@ -1156,6 +1164,9 @@ class ErplyAPI extends BaseAPI
         return $instance;
     }
 
+    /**
+     * This internal method for test valid session and perform reconnect if already required
+     */
     protected function keepalive()
     {
         if ($this->keepalive instanceof DTO\SessionKeyInfo) {
