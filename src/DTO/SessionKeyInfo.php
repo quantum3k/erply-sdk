@@ -20,4 +20,9 @@ class SessionKeyInfo extends BaseEntity
     {
         return time() <= $this->expireUnixTime;
     }
+
+    public function isValid(): bool
+    {
+        return $this->creationUnixTime && $this->expireUnixTime;
+    }
 }

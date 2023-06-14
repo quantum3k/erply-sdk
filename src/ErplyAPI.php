@@ -1159,7 +1159,7 @@ class ErplyAPI extends BaseAPI
     protected function keepalive()
     {
         if ($this->keepalive instanceof DTO\SessionKeyInfo) {
-            if ($this->keepalive->isAlive() === false) {
+            if ($this->keepalive->isValid() && !$this->keepalive->isAlive()) {
                 $this->log('Session expired. Performing re-connect...', self::LOG_NOTICE);
                 $this->verifyUser();
             }
