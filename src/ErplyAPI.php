@@ -994,8 +994,8 @@ class ErplyAPI extends BaseAPI
         if ($username !== null) $this->setUsername($username);
         if ($password !== null) $this->setPassword($password);
 
-        unset($this->session);
-        unset($this->keepalive);
+        $this->session = null;
+        $this->keepalive = null;
 
         $this->session = $this->make(DTO\VerifyUser::class, $parameters);
         $this->keepalive = $this->getSessionKeyInfo();
