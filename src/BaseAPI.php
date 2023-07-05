@@ -6,6 +6,7 @@ abstract class BaseAPI
 {
     protected $logs = [];
     protected $sensitivity = [];
+    protected $forward;
 
     const LOG_ERROR = 'error';
     const LOG_NOTICE = 'notice';
@@ -15,11 +16,22 @@ abstract class BaseAPI
     {
         if (empty($this->sensitivity) || in_array($type, $this->sensitivity)) {
             $this->logs[] = [
-                'datetime' => date('Y-d-m H:i:s'),
+                'datetime' => $datetime = date('Y-d-m H:i:s'),
                 'type' => $type,
                 'message' => $message,
             ];
+            if ($this->forward && is_callable($this->forward, true)) {
+                call_user_func($this->forward, $message, $type, $datetime);
+            }
         }
+    }
+
+    public function hasLog($type): bool
+    {
+        foreach ($this->logs as $entry)
+            if ($entry['type'] === $type) return true;
+
+        return false;
     }
 
     public function getLog($type = null)
@@ -33,17 +45,15 @@ abstract class BaseAPI
         }
     }
 
-    public function hasLog($type): bool
-    {
-        foreach ($this->logs as $entry)
-            if ($entry['type'] === $type) return true;
-
-        return false;
-    }
-
     public function setLogSensitivity(array $types = [])
     {
         $this->sensitivity = $types;
+        return $this;
+    }
+
+    public function setLogForward($callback)
+    {
+        $this->forward = $callback;
         return $this;
     }
 }
