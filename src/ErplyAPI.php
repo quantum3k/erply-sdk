@@ -517,11 +517,12 @@ class ErplyAPI extends BaseAPI
         return $this->make(DTO\SaveProductGroup::class, $parameters);
     }
 
-    /**
-     * @todo Тут нужно данные из параметра $rows, реализовать по нормальному как часть модели PurchaseDocument.
-     *        Ещё как вариант, может быть сделать модели с динамическим набором публичных свойств, где что пришло в ответе, то и будет,
-     *        и что было добавлено в модель, то и будет. Причем поля то будут описаны просто через phpDoc.
-     */
+    public function saveProductUnit(DTO\ProductUnit $record): DTO\SaveProductUnit
+    {
+        $parameters = [static::STD_REQ => 'saveProductUnit'] + $record->getQuery();
+        return $this->make(DTO\SaveProductUnit::class, $parameters);
+    }
+
     public function savePurchaseDocument(DTO\PurchaseDocument $record): DTO\SavePurchaseDocument
     {
         $parameters = [static::STD_REQ => 'savePurchaseDocument'] + $record->getQuery();
@@ -742,6 +743,12 @@ class ErplyAPI extends BaseAPI
     {
         $parameters[static::STD_REQ] = 'getProductGroups';
         return $this->make(Collections\ProductGroups::class, $parameters);
+    }
+
+    public function getProductUnits(array $parameters = []): Collections\ProductUnits
+    {
+        $parameters[static::STD_REQ] = 'getProductUnits';
+        return $this->make(Collections\ProductUnits::class, $parameters);
     }
 
     public function getProductPrices(array $parameters = []): Collections\ProductPrices

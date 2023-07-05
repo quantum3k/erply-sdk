@@ -38,6 +38,7 @@ class EntityMapping
         'getProductGroups'                  => Collections\ProductGroups::class,
         'getProductPictures'                => Collections\ProductPictures::class,
         'getProductPrices'                  => Collections\ProductPrices::class,
+        'getProductUnits'                   => Collections\ProductUnits::class,
         'getProducts'                       => Collections\Products::class,
         'getProductStock'                   => Collections\ProductStocks::class,
         'getPurchaseDocuments'              => Collections\PurchaseDocuments::class,
