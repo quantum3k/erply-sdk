@@ -28,6 +28,7 @@ class EntityMapping
         'getInventoryRegistrations'         => Collections\InventoryRegistrations::class,
         'getInventoryTransfers'             => Collections\InventoryTransfers::class,
         'getInventoryWriteOffs'             => Collections\InventoryWriteOffs::class,
+        'getInvoicePaymentTypes'            => Collections\InvoicePaymentTypes::class,
         'getIssuedCoupons'                  => Collections\IssuedCoupons::class,
         'getMatrixDimensions'               => Collections\MatrixDimensions::class,
         'getPayments'                       => Collections\Payments::class,

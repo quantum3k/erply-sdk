@@ -679,6 +679,12 @@ class ErplyAPI extends BaseAPI
         return $this->make(Collections\PaymentTypes::class, $parameters);
     }
 
+    public function getInvoicePaymentTypes(array $parameters = []): Collections\InvoicePaymentTypes
+    {
+        $parameters[static::STD_REQ] = 'getInvoicePaymentTypes';
+        return $this->make(Collections\InvoicePaymentTypes::class, $parameters);
+    }
+
     public function getInventoryWriteOffs(array $parameters = []): Collections\InventoryWriteOffs
     {
         $parameters[static::STD_REQ] = 'getInventoryWriteOffs';
