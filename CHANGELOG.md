@@ -1,5 +1,8 @@
 # CHANGELOG
 
+### v.1.0.11
+Added models for InventoryTransfer api method
+
 ### v1.0.10
 * Added models for getInvoicePaymentTypes api method
 
@@ -31,5 +34,5 @@
 * Logging improved
 
 ### v1.0.0
-* Initial commit
 * Added API-wide logging
+* Initial commit

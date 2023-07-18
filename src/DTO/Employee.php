@@ -39,7 +39,7 @@ class Employee extends BaseEntity
     public $lastModified;
     public $lastModifiedByUserName;
 
-    protected static $nested_fields = ['attributes'];
+    protected static $nested_fields = ['attributes' => Attribute::class];
 
     protected static $query_fields = [
         'employeeID', 'lang', 'firstName', 'lastName', 'phone', 'mobile', 'email',
