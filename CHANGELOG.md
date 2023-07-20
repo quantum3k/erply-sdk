@@ -1,5 +1,8 @@
 # CHANGELOG
 
+### v.1.0.12
+Fixed auto-pager in collections
+
 ### v.1.0.11
 Added models for InventoryTransfer api method
 
