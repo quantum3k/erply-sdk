@@ -101,17 +101,23 @@ abstract class BaseEntityCollection implements \Countable, \Iterator
 
     public function current()
     {
-        $pager = $this->getRecordPosition($this->position + 1, $this->getConnection()->getRecordsOnPage());
+        $pager = [
+            'page' => 1,
+            'record' => $this->position,
+        ];
 
-        if ($pager['page'] > $this->page) {
-            $request = $this->getStatus()->getPreviousRequest();
-            $request['pageNo'] = $pager['page'];
+        if ($this->getStatus()->getRecordsTotal() != $this->getStatus()->getRecordsInResponse()) {
+            $pager = $this->getRecordPosition($this->position + 1, $this->getConnection()->getRecordsOnPage());
 
-            $response = new static($this->getConnection()->stdRequest($request));
-            $response->setConnection($this->getConnection());
+            if ($pager['page'] > $this->page) {
+                $request = $this->getStatus()->getPreviousRequest();
+                $request['pageNo'] = $pager['page'];
 
-            $this->status = $response->getStatus();
-            $this->records = $response->getRecords();
+                $response = new static($this->getConnection()->stdRequest($request));
+
+                $this->status = $response->getStatus();
+                $this->records = $response->getRecords();
+            }
         }
 
         $this->page = $pager['page'];
