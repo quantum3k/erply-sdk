@@ -90,7 +90,9 @@ class Product extends BaseEntity
     /** @var ProductPicture[] */
     public $images;
 
+    /** @var list<array{warehouseID:int, totalInStock:int, reserved:int, free:int, orderPending:int, reorderPoint:int, restockLevel:int}> */
     public $warehouses;
+
     public $variationDescription;
     public $productVariations;
     public $variationList;
