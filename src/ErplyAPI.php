@@ -763,7 +763,7 @@ class ErplyAPI extends BaseAPI
         return $this->make(Collections\ProductPrices::class, $parameters);
     }
 
-    public function getProductStocks(array $parameters = []): Collections\ProductStocks
+    public function getProductStock(array $parameters = []): Collections\ProductStocks
     {
         $parameters[static::STD_REQ] = 'getProductStock';
         return $this->make(Collections\ProductStocks::class, $parameters);
