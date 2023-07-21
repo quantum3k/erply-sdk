@@ -23,7 +23,6 @@ class Status
 
     public function __construct(array $status = null)
     {
-        // todo:  здесь меняем requestName на request
         if ($status !== null) {
             foreach ($status as $field => $value) {
                 if (property_exists($this, $field)) {

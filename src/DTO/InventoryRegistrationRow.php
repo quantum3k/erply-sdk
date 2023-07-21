@@ -2,9 +2,8 @@
 
 namespace quantum3k\ErplySDK\DTO;
 
-class InventoryTransferRow extends BaseEntity
+class InventoryRegistrationRow extends BaseEntity
 {
-    public $stableRowID;
     public $productID;
     public $price;
     public $amount;
@@ -14,9 +13,8 @@ class InventoryTransferRow extends BaseEntity
     public $amountInPackage;
     public $packageType;
     public $packageTypeID;
-    public $jdoc;
-    
+
     protected static $query_fields = [
-        'stableRowID', 'productID', 'amount', 'price', 'packageID', 'amountOfPackages'
+        'productID', 'amount', 'price', 'packageID', 'amountOfPackages'
     ];
 }

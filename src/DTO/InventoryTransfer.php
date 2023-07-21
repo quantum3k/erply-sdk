@@ -25,7 +25,7 @@ class InventoryTransfer extends BaseEntity
     public $added;
     public $lastModified;
 
-    /** @var InventoryTransferRow */
+    /** @var InventoryTransferRow[] */
     public $rows;
 
     /** @var Attribute[] */

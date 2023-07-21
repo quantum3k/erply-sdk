@@ -1,10 +1,17 @@
 # CHANGELOG
 
+### v.1.0.14
+* Added InventoryRegistrationRow and InventoryWriteOffRow models
+* Bugfix in saved fields in InventoryTransferRow model
+
+### v.1.0.13
+* Added phpdoc for warehouses property in product model
+
 ### v.1.0.12
-Fixed auto-pager in collections
+* Fixed auto-pager in collections
 
 ### v.1.0.11
-Added models for InventoryTransfer api method
+* Added models for InventoryTransfer api method
 
 ### v1.0.10
 * Added models for getInvoicePaymentTypes api method

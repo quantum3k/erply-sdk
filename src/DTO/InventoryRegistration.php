@@ -2,9 +2,6 @@
 
 namespace quantum3k\ErplySDK\DTO;
 
-/**
- * todo Добавить вложенную модель Rows
- */
 class InventoryRegistration extends BaseEntity
 {
     public $inventoryRegistrationID;
@@ -23,12 +20,17 @@ class InventoryRegistration extends BaseEntity
     public $confirmed;
     public $added;
     public $lastModified;
+
+    /** @var InventoryRegistrationRow[] */
     public $rows;
 
     /** @var Attribute[] */
     public $attributes;
 
-    protected static $nested_fields = ['attributes' => Attribute::class];
+    protected static $nested_fields = [
+        'rows' => InventoryRegistrationRow::class,
+        'attributes' => Attribute::class
+    ];
 
     protected static $query_fields = [
         'inventoryRegistrationID', 'creatorID', 'warehouseID', 'stocktakingID',
@@ -38,5 +40,10 @@ class InventoryRegistration extends BaseEntity
     public function addAttribute(): Attribute
     {
         return $this->attributes[] = new static::$nested_fields['attributes']();
+    }
+
+    public function addRow(): InventoryRegistrationRow
+    {
+        return $this->rows[] = new static::$nested_fields['rows']();
     }
 }
