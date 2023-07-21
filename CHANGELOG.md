@@ -1,11 +1,9 @@
 # CHANGELOG
 
-### v.1.0.14
-* Added InventoryRegistrationRow and InventoryWriteOffRow models
-* Bugfix in saved fields in InventoryTransferRow model
-
 ### v.1.0.13
 * Added phpdoc for warehouses property in product model
+* Added InventoryRegistrationRow and InventoryWriteOffRow models
+* Bugfix in saved fields in InventoryTransferRow model
 
 ### v.1.0.12
 * Fixed auto-pager in collections
