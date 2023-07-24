@@ -1,5 +1,8 @@
 # CHANGELOG
 
+### v.1.0.14
+* Method getProductStocks() renamed to getProductStock() like as api method
+
 ### v.1.0.13
 * Added phpdoc for warehouses property in product model
 * Added InventoryRegistrationRow and InventoryWriteOffRow models
