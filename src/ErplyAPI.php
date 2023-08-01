@@ -1135,7 +1135,7 @@ class ErplyAPI extends BaseAPI
             return $response;
 
         } catch (ApiException $e) {
-            $this->log('Throw ApiException error.', self::LOG_NOTICE);
+            $this->log("[{$e->getCode()}] {$e->getMessage()}", self::LOG_ERROR);
             throw $e;
 
         } catch (\Exception $e) {
@@ -1214,8 +1214,13 @@ class ErplyAPI extends BaseAPI
     /** @throws ApiException */
     protected function raiseError($status)
     {
-        if ($this->getThrow())
-            throw new ApiException($status);
+        $e = new ApiException($status);
+
+        if ($this->getThrow()) {
+            throw $e;
+        } else {
+            $this->log("[{$e->getCode()}] {$e->getMessage()}", self::LOG_ERROR);
+        }
     }
 
 

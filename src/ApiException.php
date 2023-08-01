@@ -13,7 +13,7 @@ class ApiException extends \Exception
         $code = $status['errorCode'] ?? 0;
         $message = static::$messages[$code] ?? '(unknown error message code)';
 
-        if (isset($status['errorField']))
+        if (!empty($status['errorField']))
             $message = "$message errorField=[{$status['errorField']}]";
 
         parent::__construct($message, $code, $previous);
