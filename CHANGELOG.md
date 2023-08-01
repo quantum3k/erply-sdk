@@ -1,5 +1,8 @@
 # CHANGELOG
 
+### v.1.0.15
+* Improved error reporting
+
 ### v.1.0.14
 * Method getProductStocks() renamed to getProductStock() like as api method
 
