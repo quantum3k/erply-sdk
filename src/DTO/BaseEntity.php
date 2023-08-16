@@ -45,11 +45,13 @@ abstract class BaseEntity
 
             if ($value !== null) {
                 if (isset(static::$nested_fields[$field]) && is_array($value)) {
-                    foreach ($value as $index => $nested_obj) {
+                    $index = 0;
+                    foreach ($value as $nested_obj) {
                         if ($nested_obj instanceof BaseEntity) {
+                            $index++;
                             $elements = $nested_obj->getQuery();
                             foreach ($elements as $prop_name => $prop_value) {
-                                $query[$prop_name.($index + 1)] = $prop_value;
+                                $query[$prop_name.$index] = $prop_value;
                             }
                         }
                     }
