@@ -1,5 +1,8 @@
 # CHANGELOG
 
+### v.1.0.16
+* Preventing internal pointer in preparing nested fields
+
 ### v.1.0.15
 * Improved error reporting
 
