@@ -1,5 +1,8 @@
 # CHANGELOG
 
+### v.1.0.17
+* Improved working keepalive
+
 ### v.1.0.16
 * Preventing internal pointer in preparing nested fields
 
