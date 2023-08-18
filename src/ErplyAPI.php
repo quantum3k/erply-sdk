@@ -133,6 +133,8 @@ class ErplyAPI extends BaseAPI
     public function __construct()
     {
         $this->setLogSensitivity([self::LOG_NOTICE, self::LOG_ERROR]);
+        $this->session = new DTO\VerifyUser();
+        $this->keepalive = new DTO\SessionKeyInfo();
     }
 
     /*
