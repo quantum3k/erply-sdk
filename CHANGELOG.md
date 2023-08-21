@@ -1,5 +1,8 @@
 # CHANGELOG
 
+### v.1.0.18
+* Added reconnection if session expired
+
 ### v.1.0.17
 * Improved working keepalive
 
