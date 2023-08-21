@@ -1,5 +1,8 @@
 # CHANGELOG
 
+### v.1.0.20
+* Added setter/getter for reconnect attempts
+
 ### v.1.0.19
 * Added reconnect attempt for all requests
 
