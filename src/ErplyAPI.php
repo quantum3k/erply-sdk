@@ -14,8 +14,8 @@ class ErplyAPI extends BaseAPI
     protected $password;
     protected $recordsOnPage = 20;
     protected $sessionLength = 86400;
-    protected $throw = true;
     protected $attempts = 3;
+    protected $throw = true;
 
     /**
      * @var DTO\VerifyUser
@@ -88,6 +88,17 @@ class ErplyAPI extends BaseAPI
             return $this->session->sessionKey;
 
         return null;
+    }
+
+    public function setAttempts($attempts): self
+    {
+        $this->attempts = $attempts;
+        return $this;
+    }
+
+    public function getAttempts()
+    {
+        return $this->attempts;
     }
 
     /**
