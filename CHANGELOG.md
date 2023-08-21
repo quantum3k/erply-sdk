@@ -1,5 +1,8 @@
 # CHANGELOG
 
+### v.1.0.19
+* Added reconnect attempt for all requests
+
 ### v.1.0.18
 * Added reconnection if session expired
 
