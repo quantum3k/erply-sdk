@@ -1130,7 +1130,12 @@ class ErplyAPI extends BaseAPI
 
                 if ($response['status']['errorCode'] > 0) {
                     $this->log("Received status with error code {$response['status']['errorCode']}", self::LOG_NOTICE);
-                    $this->raiseError($response['status']);
+                    if ($response['status']['errorCode'] == 1054) {
+                        $this->log('Session expired. Performing re-connect...', self::LOG_NOTICE);
+                        $this->verifyUser();
+                    } else {
+                        $this->raiseError($response['status']);
+                    }
                 }
             }
 
