@@ -15,6 +15,7 @@ class ErplyAPI extends BaseAPI
     protected $recordsOnPage = 20;
     protected $sessionLength = 86400;
     protected $throw = true;
+    protected $attempts = 3;
 
     /**
      * @var DTO\VerifyUser
@@ -1081,7 +1082,7 @@ class ErplyAPI extends BaseAPI
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @see https://docs.guzzlephp.org/en/6.5/request-options.html
      */
-    protected function sendPostDataToErply($requestParams): array
+    protected function sendPostDataToErply($requestParams, $attempt = 1): array
     {
         $this->keepalive();
 
@@ -1131,8 +1132,14 @@ class ErplyAPI extends BaseAPI
                 if ($response['status']['errorCode'] > 0) {
                     $this->log("Received status with error code {$response['status']['errorCode']}", self::LOG_NOTICE);
                     if ($response['status']['errorCode'] == 1054) {
-                        $this->log('Session expired. Performing re-connect...', self::LOG_NOTICE);
-                        $this->verifyUser();
+                        if ($attempt++ < $this->attempts) {
+                            $this->log('Received code that session expired. Performing re-connect...', self::LOG_NOTICE);
+                            $this->verifyUser();
+                            return $this->sendPostDataToErply($requestParams, $attempt);
+                        } else {
+                            $this->log("Received code that session expired, and $this->attempts attempts is over.");
+                            $this->raiseError($response['status']);
+                        }
                     } else {
                         $this->raiseError($response['status']);
                     }
