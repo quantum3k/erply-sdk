@@ -16,7 +16,7 @@ abstract class BaseAPI
     {
         if (empty($this->sensitivity) || in_array($type, $this->sensitivity)) {
             $this->logs[] = [
-                'datetime' => $datetime = date('Y-d-m H:i:s'),
+                'datetime' => $datetime = date('Y-m-d H:i:s'),
                 'type' => $type,
                 'message' => $message,
             ];

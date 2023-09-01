@@ -1,5 +1,8 @@
 # CHANGELOG
 
+### v.1.0.21
+* Bugfix with date format in log
+
 ### v.1.0.20
 * Added setter/getter for reconnect attempts
 
