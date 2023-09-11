@@ -1,5 +1,8 @@
 # CHANGELOG
 
+### v.1.0.22
+* LOG_DEBUG level changed to LOG_REQUEST and LOG_RESPONSE levels 
+
 ### v.1.0.21
 * Bugfix with date format in log
 

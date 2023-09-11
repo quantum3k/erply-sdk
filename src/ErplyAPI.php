@@ -1112,7 +1112,7 @@ class ErplyAPI extends BaseAPI
         $requestParams['clientCode'] = $this->getCode();
         $requestParams['sessionKey'] = $this->getSessionKey();
 
-        $this->log(['raw_request' => $requestParams], self::LOG_DEBUG);
+        $this->log($requestParams, self::LOG_REQUEST);
 
         $client = new Client();
         try {
@@ -1126,7 +1126,7 @@ class ErplyAPI extends BaseAPI
                 ],
             ]);
 
-            $this->log(['raw_response' => $response->getBody()->getContents()], self::LOG_DEBUG);
+            $this->log($response->getBody()->getContents(), self::LOG_RESPONSE);
 
             $response = json_decode($response->getBody(), true);
 

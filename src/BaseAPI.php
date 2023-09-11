@@ -10,7 +10,8 @@ abstract class BaseAPI
 
     const LOG_ERROR = 'error';
     const LOG_NOTICE = 'notice';
-    const LOG_DEBUG = 'debug';
+    const LOG_REQUEST = 'request';
+    const LOG_RESPONSE = 'response';
 
     public function log($message, $type = 'notice')
     {
