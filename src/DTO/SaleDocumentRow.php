@@ -10,6 +10,7 @@ class SaleDocumentRow extends BaseEntity
     public $serviceID;
     public $itemName;
     public $code;
+    public $barcode;
     public $vatrateID;
     public $amount;
     public $price;
