@@ -23,6 +23,9 @@ class SaleDocumentRow extends BaseEntity
     public $deliveryDate;
     public $returnReasonID;
     public $employeeID;
+    public $nonTaxablePrice;
+    public $productGroupID;
+    public $productBrandID;
     public $campaignIDs;
     public $containerID;
     public $containerAmount;

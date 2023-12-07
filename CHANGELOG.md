@@ -1,5 +1,8 @@
 # CHANGELOG
 
+### v.1.0.24
+* Added nonTaxablePrice, productGroupID, productBrandID properties to SaleDocumentRow model
+
 ### v.1.0.23
 * Added barcode property to SaleDocumentRow model
 
