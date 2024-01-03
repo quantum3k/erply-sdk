@@ -1,5 +1,9 @@
 # CHANGELOG
 
+### v.1.0.25
+* Base class renamed
+* Added current library versioning to Base class
+
 ### v.1.0.24
 * Added nonTaxablePrice, productGroupID, productBrandID properties to SaleDocumentRow model
 

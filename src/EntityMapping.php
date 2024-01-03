@@ -6,7 +6,7 @@ class EntityMapping
 {
     /**
      * Mapping request name to collection
-     * [Request name] => [Collection entity class]
+     * [request_name] => [collection_entity_class]
      * @var string[]
      */
     protected static $collections = [

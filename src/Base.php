@@ -2,7 +2,7 @@
 
 namespace quantum3k\ErplySDK;
 
-abstract class BaseAPI
+abstract class Base
 {
     protected $logs = [];
     protected $sensitivity = [];
@@ -12,6 +12,8 @@ abstract class BaseAPI
     const LOG_NOTICE = 'notice';
     const LOG_REQUEST = 'request';
     const LOG_RESPONSE = 'response';
+
+    const VERSION = '1.0.25';
 
     public function log($message, $type = 'notice')
     {

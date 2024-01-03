@@ -7,13 +7,13 @@ use quantum3k\ErplySDK\Bulks\BaseEntityBulk;
 use quantum3k\ErplySDK\Collections\BaseEntityCollection;
 use GuzzleHttp\Client;
 
-class ErplyAPI extends BaseAPI
+class ErplyAPI extends Base
 {
     protected $code;
     protected $username;
     protected $password;
     protected $recordsOnPage = 20;
-    protected $sessionLength = 86400;
+    protected $sessionLength = 3600;
     protected $attempts = 3;
     protected $throw = true;
 
@@ -27,7 +27,7 @@ class ErplyAPI extends BaseAPI
      */
     protected $keepalive;
 
-    const USER_AGENT = 'ErplyClient/1.0.1';
+    const USER_AGENT = 'ErplyClient/' . self::VERSION;
 
     const STD_REQ = 'request';
     const BULK_REQ = 'requestName';
@@ -1122,7 +1122,7 @@ class ErplyAPI extends BaseAPI
                 'form_params' => $requestParams,
                 'headers' => [
                     'Accept' => '*/*',
-                    'User-Agent' => static::USER_AGENT,
+                    'User-Agent' => self::USER_AGENT,
                 ],
             ]);
 
