@@ -2,11 +2,16 @@
 
 namespace quantum3k\ErplySDK\DTO;
 
+use quantum3k\ErplySDK\Collections\Attributes;
+use quantum3k\ErplySDK\Traits\AddAttribute;
+
 /**
  * todo: есть ещё вложенные поля
  */
 class Campaign extends BaseEntity
 {
+    use AddAttribute;
+
     public $campaignID;
     public $startDate;
     public $endDate;
@@ -84,7 +89,7 @@ class Campaign extends BaseEntity
     public $added;
     public $lastModified;
 
-    /** @var Attribute[] */
+    /** @var Attributes */
     public $attributes;
 
     public $nameENG;
@@ -102,7 +107,7 @@ class Campaign extends BaseEntity
     public $purchasedProductSubsidies;
     public $awardedProductSubsidies;
 
-    protected static $nested_fields = ['attributes' => Attribute::class];
+    protected static $nested_fields = ['attributes' => Attributes::class];
 
     protected static $query_fields = [
         'campaignID', 'startDate', 'endDate', 'startTime', 'endTime', 'enabled',
@@ -120,9 +125,4 @@ class Campaign extends BaseEntity
         'oncePerDay', 'isBirthdayPromotion', 'oncePerBirthday', 'onlyForDiscountedItems', 'restrictOnNoWarehouses', 'requiresManagerOverride',
         'reasonID', 'specialUnitPrice', 'maxItemsWithSpecialUnitPrice', 'redemptionLimit', 'isStackable'
     ];
-
-    public function addAttribute(): Attribute
-    {
-        return $this->attributes[] = new static::$nested_fields['attributes']();
-    }
 }

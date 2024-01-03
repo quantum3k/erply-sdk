@@ -2,8 +2,13 @@
 
 namespace quantum3k\ErplySDK\DTO;
 
+use quantum3k\ErplySDK\Collections\Attributes;
+use quantum3k\ErplySDK\Traits\AddAttribute;
+
 class CashIn extends BaseEntity
 {
+    use AddAttribute;
+
     public $transactionID;
     public $sum;
     public $currencyCode;
@@ -20,13 +25,8 @@ class CashIn extends BaseEntity
     public $added;
     public $lastModified;
 
-    /** @var Attribute[] */
+    /** @var Attributes */
     public $attributes;
 
-    protected static $nested_fields = ['attributes' => Attribute::class];
-
-    public function addAttribute(): Attribute
-    {
-        return $this->attributes[] = new static::$nested_fields['attributes']();
-    }
+    protected static $nested_fields = ['attributes' => Attributes::class];
 }

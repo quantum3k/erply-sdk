@@ -2,8 +2,13 @@
 
 namespace quantum3k\ErplySDK\DTO;
 
+use quantum3k\ErplySDK\Collections\Attributes;
+use quantum3k\ErplySDK\Traits\AddAttribute;
+
 class Customer extends BaseEntity
 {
+    use AddAttribute;
+
     public $customerID;
     public $customerType;
     public $fullName;
@@ -60,7 +65,7 @@ class Customer extends BaseEntity
     public $associations;
     public $professionals;
 
-    /**@var Attribute[] */
+    /**@var Attributes */
     public $attributes;
 
     /** @var LongAttribute[] */
@@ -154,15 +159,10 @@ class Customer extends BaseEntity
     ];
 
     protected static $nested_fields = [
-        'attributes' => Attribute::class,
+        'attributes' => Attributes::class,
         'contactPersons' => Customer::class,
         'longAttributes' => LongAttribute::class
     ];
-
-    public function addAttribute(): Attribute
-    {
-        return $this->attributes[] = new static::$nested_fields['attributes']();
-    }
 
     public function addLongAttribute(): LongAttribute
     {

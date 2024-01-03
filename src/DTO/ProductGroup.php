@@ -2,8 +2,13 @@
 
 namespace quantum3k\ErplySDK\DTO;
 
+use quantum3k\ErplySDK\Collections\Attributes;
+use quantum3k\ErplySDK\Traits\AddAttribute;
+
 class ProductGroup extends BaseEntity
 {
+    use AddAttribute;
+
     public $productGroupID;
     public $name;
     public $nameEST;
@@ -18,19 +23,14 @@ class ProductGroup extends BaseEntity
     public $images;
     public $subGroups;
 
-    /** @var Attribute[] */
+    /** @var Attributes */
     public $attributes;
     public $vatrates;
 
-    protected static $nested_fields = ['attributes' => Attribute::class];
+    protected static $nested_fields = ['attributes' => Attributes::class];
 
     protected static $query_fields = [
         'productGroupID', 'name', 'nameEST', 'nameENG', 'nameLAT', 'nameRUS',
         'nameFIN', 'parentGroupID', 'showInWebshop', 'nonDiscountable', 'attributes'
     ];
-
-    public function addAttribute(): Attribute
-    {
-        return $this->attributes[] = new static::$nested_fields['attributes']();
-    }
 }

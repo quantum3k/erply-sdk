@@ -2,8 +2,13 @@
 
 namespace quantum3k\ErplySDK\DTO;
 
+use quantum3k\ErplySDK\Collections\Attributes;
+use quantum3k\ErplySDK\Traits\AddAttribute;
+
 class Employee extends BaseEntity
 {
+    use AddAttribute;
+
     public $employeeID;
     public $fullName;
     public $employeeName;
@@ -23,7 +28,7 @@ class Employee extends BaseEntity
     public $pointsOfSale;
     public $productIDs;
 
-    /** @var Attribute[]*/
+    /** @var Attributes */
     public $attributes;
 
     public $skype;
@@ -39,15 +44,10 @@ class Employee extends BaseEntity
     public $lastModified;
     public $lastModifiedByUserName;
 
-    protected static $nested_fields = ['attributes' => Attribute::class];
+    protected static $nested_fields = ['attributes' => Attributes::class];
 
     protected static $query_fields = [
         'employeeID', 'lang', 'firstName', 'lastName', 'phone', 'mobile', 'email',
         'skype', 'jobTitle', 'notes', 'drawerID', 'productGroupIDs', 'attributes'
     ];
-
-    public function addAttribute(): Attribute
-    {
-        return $this->attributes[] = new static::$nested_fields['attributes']();
-    }
 }

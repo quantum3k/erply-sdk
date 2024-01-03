@@ -2,8 +2,13 @@
 
 namespace quantum3k\ErplySDK\DTO;
 
+use quantum3k\ErplySDK\Collections\Attributes;
+use quantum3k\ErplySDK\Traits\AddAttribute;
+
 class InventoryRegistration extends BaseEntity
 {
+    use AddAttribute;
+
     public $inventoryRegistrationID;
     public $inventoryRegistrationNo;
     public $creatorID;
@@ -24,23 +29,18 @@ class InventoryRegistration extends BaseEntity
     /** @var InventoryRegistrationRow[] */
     public $rows;
 
-    /** @var Attribute[] */
+    /** @var Attributes */
     public $attributes;
 
     protected static $nested_fields = [
         'rows' => InventoryRegistrationRow::class,
-        'attributes' => Attribute::class
+        'attributes' => Attributes::class
     ];
 
     protected static $query_fields = [
         'inventoryRegistrationID', 'creatorID', 'warehouseID', 'stocktakingID',
         'supplierID', 'reasonID', 'currencyCode', 'date', 'cause', 'confirmed', 'rows', 'attributes'
     ];
-
-    public function addAttribute(): Attribute
-    {
-        return $this->attributes[] = new static::$nested_fields['attributes']();
-    }
 
     public function addRow(): InventoryRegistrationRow
     {

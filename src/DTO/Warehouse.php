@@ -2,8 +2,13 @@
 
 namespace quantum3k\ErplySDK\DTO;
 
+use quantum3k\ErplySDK\Collections\Attributes;
+use quantum3k\ErplySDK\Traits\AddAttribute;
+
 class Warehouse extends BaseEntity
 {
+    use AddAttribute;
+
     public $warehouseID;
     public $name;
     public $nameENG;
@@ -50,7 +55,7 @@ class Warehouse extends BaseEntity
     public $isOfflineInventory;
     public $timeZone;
 
-    /** @var Attribute[] */
+    /** @var Attributes */
     public $attributes;
 
     public $bank;
@@ -61,7 +66,7 @@ class Warehouse extends BaseEntity
     public $shift2End;
     public $addAccessForAllUsers;
 
-    protected static $nested_fields = ['attributes' => Attribute::class];
+    protected static $nested_fields = ['attributes' => Attributes::class];
 
     protected static $query_fields = [
         'warehouseID', 'name', 'nameENG', 'nameSPA', 'nameGER', 'nameSWE', 'nameFIN', 'nameRUS', 'nameEST',
@@ -70,9 +75,4 @@ class Warehouse extends BaseEntity
         'timeZone', 'phone', 'fax', 'email', 'website', 'bank', 'account', 'swift', 'iban', 'shift1Start', 'shift1End',
         'shift2Start', 'shift2End', 'addAccessForAllUsers', 'attributes'
     ];
-
-    public function addAttribute(): Attribute
-    {
-        return $this->attributes[] = new static::$nested_fields['attributes']();
-    }
 }

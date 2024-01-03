@@ -2,8 +2,13 @@
 
 namespace quantum3k\ErplySDK\DTO;
 
+use quantum3k\ErplySDK\Collections\Attributes;
+use quantum3k\ErplySDK\Traits\AddAttribute;
+
 class PriceList extends BaseEntity
 {
+    use AddAttribute;
+
     public $pricelistID;
     public $name;
     public $nameENG;
@@ -28,13 +33,13 @@ class PriceList extends BaseEntity
     /** @var PriceListRule[] */
     public $pricelistRules;
 
-    /** @var Attribute[] */
+    /** @var Attributes */
     public $attributes;
 
 
     protected static $nested_fields = [
         'pricelistRules' => PriceListRule::class,
-        'attributes' => Attribute::class
+        'attributes' => Attributes::class
     ];
 
     protected static $query_fields = [
@@ -42,11 +47,6 @@ class PriceList extends BaseEntity
         'nameSWE', 'nameFIN', 'nameRUS', 'nameEST', 'nameLAT', 'nameLIT', 'nameGRE', 'startDate',
         'endDate', 'active', 'type', 'pricelistRules', 'attributes'
     ];
-
-    public function addAttribute(): Attribute
-    {
-        return $this->attributes[] = new static::$nested_fields['attributes']();
-    }
 
     public function addPriceListRules(): PriceListRule
     {

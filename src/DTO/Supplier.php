@@ -2,8 +2,13 @@
 
 namespace quantum3k\ErplySDK\DTO;
 
+use quantum3k\ErplySDK\Collections\Attributes;
+use quantum3k\ErplySDK\Traits\AddAttribute;
+
 class Supplier extends BaseEntity
 {
+    use AddAttribute;
+
     public $supplierID;
     public $supplierType;
     public $fullName;
@@ -28,9 +33,7 @@ class Supplier extends BaseEntity
     public $address;
     public $GLN;
 
-    /**
-     * @var Attribute[]
-     */
+    /** @var Attributes */
     public $attributes;
 
     public $vatNumber;
@@ -50,7 +53,7 @@ class Supplier extends BaseEntity
     public $lastModified;
     public $added;
 
-    protected static $nested_fields = ['attributes' => Attribute::class];
+    protected static $nested_fields = ['attributes' => Attributes::class];
 
     protected static $query_fields = [
         'supplierID', 'groupID', 'supplierManagerID', '*****', 'companyName', 'companyTypeID',
@@ -59,9 +62,4 @@ class Supplier extends BaseEntity
         'email', 'skype', 'website', 'notes', 'integrationCode', 'vatrateID', 'currencyCode',
         'deliveryTermsID', 'countryID', 'GLN', 'paymentDays', 'attributes'
     ];
-
-    public function addAttribute(): Attribute
-    {
-        return $this->attributes[] = new static::$nested_fields['attributes']();
-    }
 }

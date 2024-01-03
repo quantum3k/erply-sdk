@@ -2,8 +2,13 @@
 
 namespace quantum3k\ErplySDK\DTO;
 
+use quantum3k\ErplySDK\Collections\Attributes;
+use quantum3k\ErplySDK\Traits\AddAttribute;
+
 class DayClosing extends BaseEntity
 {
+    use AddAttribute;
+
     public $dayID;
     public $warehouseID;
     public $warehouseName;
@@ -25,13 +30,8 @@ class DayClosing extends BaseEntity
     public $reasonID;
     public $currencyCode;
 
-    /** @var Attribute[] */
+    /** @var Attributes */
     public $attributes;
 
-    protected static $nested_fields = ['attributes' => Attribute::class];
-
-    public function addAttribute(): Attribute
-    {
-        return $this->attributes[] = new static::$nested_fields['attributes']();
-    }
+    protected static $nested_fields = ['attributes' => Attributes::class];
 }

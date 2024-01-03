@@ -2,8 +2,13 @@
 
 namespace quantum3k\ErplySDK\DTO;
 
+use quantum3k\ErplySDK\Collections\Attributes;
+use quantum3k\ErplySDK\Traits\AddAttribute;
+
 class Product extends BaseEntity
 {
+    use AddAttribute;
+
     public $productID;
     public $type;
     public $active;
@@ -161,9 +166,6 @@ class Product extends BaseEntity
     public $exciseOtherAlcohol;
     public $excisePackaging;
 
-    /** @var Attribute[] */
-    public $attributes;
-
     /** @var LongAttribute[] */
     public $longAttributes;
 
@@ -174,7 +176,7 @@ class Product extends BaseEntity
 
     protected static $nested_fields = [
         'images' => ProductPicture::class,
-        'attributes' => Attribute::class,
+        //'attributes' => Attributes::class,
         'longAttributes' => LongAttribute::class,
     ];
 
@@ -201,11 +203,6 @@ class Product extends BaseEntity
         'exciseFermentedProductUnder6', 'exciseWineOver6', 'exciseFermentedProductOver6', 'exciseIntermediateProduct',
         'exciseOtherAlcohol', 'excisePackaging', 'attributes', 'longAttributes', 'parameters', 'productComponents'
     ];
-
-    public function addAttribute(): Attribute
-    {
-        return $this->attributes[] = new static::$nested_fields['attributes']();
-    }
 
     public function addLongAttribute(): LongAttribute
     {

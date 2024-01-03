@@ -2,8 +2,13 @@
 
 namespace quantum3k\ErplySDK\DTO;
 
+use quantum3k\ErplySDK\Collections\Attributes;
+use quantum3k\ErplySDK\Traits\AddAttribute;
+
 class Payment extends BaseEntity
 {
+    use AddAttribute;
+
     public $paymentID;
     public $documentID;
     public $customerID;
@@ -59,13 +64,13 @@ class Payment extends BaseEntity
     public $added;
     public $lastModified;
 
-    /** @var Attribute[] */
+    /** @var Attributes */
     public $attributes;
 
     public $time;
     public $isReservation;
 
-    protected static $nested_fields = ['attributes' => Attribute::class];
+    protected static $nested_fields = ['attributes' => Attributes::class];
 
     protected static $query_fields = [
         'paymentID', 'customerID', 'documentID', 'type', 'typeID', 'date', 'time', 'sum',
@@ -77,9 +82,4 @@ class Payment extends BaseEntity
         'bankPayerAccount', 'bankPayerName', 'bankPayerCode', 'bankSum', 'bankReferenceNumber', 'bankDescription',
         'bankCurrency', 'archivalNumber', 'attributes'
     ];
-
-    public function addAttribute(): Attribute
-    {
-        return $this->attributes[] = new static::$nested_fields['attributes']();
-    }
 }

@@ -2,8 +2,13 @@
 
 namespace quantum3k\ErplySDK\DTO;
 
+use quantum3k\ErplySDK\Collections\Attributes;
+use quantum3k\ErplySDK\Traits\AddAttribute;
+
 class Event extends BaseEntity
 {
+    use AddAttribute;
+
     public $id;
     public $eventID;
     public $description;
@@ -39,13 +44,13 @@ class Event extends BaseEntity
     public $notes;
     public $lastModified;
 
-    /** @var Attribute[] */
+    /** @var Attributes */
     public $attributes;
 
     public $added;
     public $notOverlapping;
     
-    protected static $nested_fields = ['attributes' => Attribute::class];
+    protected static $nested_fields = ['attributes' => Attributes::class];
 
     protected static $query_fields = [
         'id', 'description', 'typeID', 'type', 'startTime', 'endTime', 'customerID',
@@ -53,9 +58,4 @@ class Event extends BaseEntity
         'productID', 'warehouseID', 'checkInTime', 'checkOutTime', 'serviceStartTime', 'completed', 'notes',
         'notOverlapping', 'attributes'
     ];
-
-    public function addAttribute(): Attribute
-    {
-        return $this->attributes[] = new static::$nested_fields['attributes']();
-    }
 }

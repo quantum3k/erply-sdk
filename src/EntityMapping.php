@@ -5,8 +5,8 @@ namespace quantum3k\ErplySDK;
 class EntityMapping
 {
     /**
-     * Mapping request name to collection
-     * [Request name] => [Collection entity class]
+     * Mapping request name to collection <br>
+     * [request_name] => [collection_entity_class]
      * @var string[]
      */
     protected static $collections = [

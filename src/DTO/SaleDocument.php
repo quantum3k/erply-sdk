@@ -2,8 +2,13 @@
 
 namespace quantum3k\ErplySDK\DTO;
 
+use quantum3k\ErplySDK\Collections\Attributes;
+use quantum3k\ErplySDK\Traits\AddAttribute;
+
 class SaleDocument extends BaseEntity
 {
+    use AddAttribute;
+
     public $id;
     public $type;
     public $exportInvoiceType;
@@ -131,7 +136,7 @@ class SaleDocument extends BaseEntity
     public $creditInvoiceType;
     public $issuedCouponIDs;
 
-    /** @var Attribute[] */
+    /** @var Attributes */
     public $attributes;
 
     /** @var LongAttribute[] */
@@ -157,7 +162,7 @@ class SaleDocument extends BaseEntity
 
     protected static $nested_fields = [
         'rows' => SaleDocumentRow::class,
-        'attributes' => Attribute::class,
+        'attributes' => Attributes::class,
         'longAttributes' => LongAttribute::class,
     ];
 
@@ -185,11 +190,6 @@ class SaleDocument extends BaseEntity
     public function addRow(): SaleDocumentRow
     {
         return $this->rows[] = new static::$nested_fields['rows']();
-    }
-
-    public function addAttribute(): Attribute
-    {
-        return $this->attributes[] = new static::$nested_fields['attributes']();
     }
 
     public function addLongAttribute(): LongAttribute

@@ -11,16 +11,24 @@ abstract class BaseEntity
 
     public function __construct(array $record = null)
     {
+        echo __METHOD__, '...';
         if ($record != null) {
             foreach ($record as $field => $value) {
                 if ($prop = $this->getEntityField($field)) {
                     if (isset(static::$nested_fields[$field])) {
-                        if (is_array($value)) {
-                            foreach ($value as $nested_value) {
-                                $this->{$prop}[] = new static::$nested_fields[$field]($nested_value);
+                        if (is_subclass_of(static::$nested_fields[$field], BaseEntity::class)) {
+                            if (is_array($value)) {
+                                foreach ($value as $nested_value) {
+                                    $this->{$prop}[] = new static::$nested_fields[$field]($nested_value);
+                                }
+                            } else {
+                                $this->{$prop} = $value;
                             }
                         } else {
-                            $this->{$prop} = $value;
+                            // Если вложенное поле не является частью BaseEntity,
+                            // то мы просто вызываем конструктор этого объекта и передаем в него всю запись,
+                            // тем самым объект сам решит как ему обработать данные.
+                            $this->{$prop} = new static::$nested_fields[$field]($record);
                         }
                     } else {
                         $this->{$prop} = $value;
@@ -29,8 +37,16 @@ abstract class BaseEntity
             }
 
             foreach($this->getEntityFields() as $field) {
-                if ($this->{$field} === null)
+                if ($this->{$field} === null) {
+                    if (isset(static::$nested_fields[$field])) {
+                        if (!is_subclass_of(static::$nested_fields[$field], BaseEntity::class)) {
+                            $this->{$field} = new static::$nested_fields[$field]();
+                            continue;
+                        }
+                    }
+
                     unset($this->{$field});
+                }
             }
         }
     }
@@ -44,7 +60,7 @@ abstract class BaseEntity
                 continue;
 
             if ($value !== null) {
-                if (isset(static::$nested_fields[$field]) && is_array($value)) {
+                if (isset(static::$nested_fields[$field]) && self::is_iterable($value)) {
                     $index = 0;
                     foreach ($value as $nested_obj) {
                         if ($nested_obj instanceof BaseEntity) {
@@ -89,5 +105,15 @@ abstract class BaseEntity
     private function getEntityField(string $field)
     {
         return $this->getEntityFields()[strtolower($field)] ?? null;
+    }
+
+    /**
+     * Analogue of \is_iterable() function in PHP >= 7.1
+     * @param $var
+     * @return bool
+     */
+    private static function is_iterable($var): bool
+    {
+        return is_array($var) || $var instanceof \Traversable;
     }
 }

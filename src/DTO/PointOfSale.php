@@ -2,8 +2,13 @@
 
 namespace quantum3k\ErplySDK\DTO;
 
+use quantum3k\ErplySDK\Collections\Attributes;
+use quantum3k\ErplySDK\Traits\AddAttribute;
+
 class PointOfSale extends BaseEntity
 {
+    use AddAttribute;
+
     public $pointOfSaleID;
     public $type;
     public $name;
@@ -32,13 +37,8 @@ class PointOfSale extends BaseEntity
     public $added;
     public $lastModified;
 
-    /** @var Attribute[] */
+    /** @var Attributes */
     public $attributes;
 
-    protected static $nested_fields = ['attributes' => Attribute::class];
-
-    public function addAttribute(): Attribute
-    {
-        return $this->attributes[] = new static::$nested_fields['attributes']();
-    }
+    protected static $nested_fields = ['attributes' => Attributes::class];
 }
