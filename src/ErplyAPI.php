@@ -1091,7 +1091,7 @@ class ErplyAPI extends Base
      *     } Associative array of response from remote server
      * @throws ApiException
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @see https://docs.guzzlephp.org/en/6.5/request-options.html
+     * @see https://docs.guzzlephp.org/en/stable/
      */
     protected function sendPostDataToErply($requestParams, $attempt = 1): array
     {
@@ -1115,6 +1115,7 @@ class ErplyAPI extends Base
         $this->log($requestParams, self::LOG_REQUEST);
 
         $client = new Client();
+
         try {
             $response = $client->request('POST', $uri, [
                 'version' => 1.1,
